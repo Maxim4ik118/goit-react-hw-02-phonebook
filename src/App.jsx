@@ -16,7 +16,7 @@ class App extends React.Component {
   handleAddContact = newContact => {
     this.checkNewContactPresence(newContact.name)
       ? alert(`${newContact.name} is already in contacts!`)
-      : this.setState({ contacts: [...this.state.contacts, newContact] });
+      : this.setState(state => ({ contacts: [...state.contacts, newContact] }));
   };
 
   handleDeleteContact = contactId => {
@@ -35,14 +35,12 @@ class App extends React.Component {
   };
 
   render() {
-    const { contacts, filter} = this.state;
+    const { contacts, filter } = this.state;
 
     return (
       <div className="app">
         <Section title="Phonebook">
-          <ContactForm
-            addContact={this.handleAddContact}
-          />
+          <ContactForm addContact={this.handleAddContact} />
         </Section>
         <Section title="Contacts">
           <Filter filter={filter} onChange={this.handleFilterContactsByName} />
