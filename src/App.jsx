@@ -1,5 +1,4 @@
 import React from 'react';
-import { nanoid } from 'nanoid';
 
 import { Filter, ContactList, Section, ContactForm } from './components';
 
@@ -12,23 +11,9 @@ class App extends React.Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
-  handleInputsChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  handleAddContact = event => {
-    event.preventDefault();
-
-    const newContact = {
-      id: nanoid(),
-      name: this.state.name,
-      number: this.state.number,
-    };
-
+  handleAddContact = newContact => {
     this.checkNewContactPresence(newContact.name)
       ? alert(`${newContact.name} is already in contacts!`)
       : this.setState({ contacts: [...this.state.contacts, newContact] });
@@ -50,16 +35,13 @@ class App extends React.Component {
   };
 
   render() {
-    const { contacts, filter, name, number } = this.state;
+    const { contacts, filter} = this.state;
 
     return (
       <div className="app">
         <Section title="Phonebook">
           <ContactForm
             addContact={this.handleAddContact}
-            onChange={this.handleInputsChange}
-            name={name}
-            number={number}
           />
         </Section>
         <Section title="Contacts">
