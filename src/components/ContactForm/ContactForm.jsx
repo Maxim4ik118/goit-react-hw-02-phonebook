@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import { number, PropTypes } from 'prop-types';
 
 import { StyledContactForm } from './Styled';
 
@@ -7,13 +7,13 @@ class ContactForm extends React.Component {
   state = {
     name: '',
     number: '',
-  }
+  };
 
   handleInputsChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
 
     const newContactData = {
@@ -22,7 +22,8 @@ class ContactForm extends React.Component {
     };
 
     this.props.addContact(newContactData);
-  }
+    this.setState(() => ({ name: '', number: '' }));
+  };
 
   static propTypes = {
     addContact: PropTypes.func.isRequired,
@@ -30,7 +31,7 @@ class ContactForm extends React.Component {
 
   render() {
     const { name, number } = this.props;
-    
+
     return (
       <StyledContactForm onSubmit={this.handleSubmit}>
         <label className="input-group">
