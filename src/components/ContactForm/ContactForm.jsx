@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { nanoid } from 'nanoid';
 
 import { StyledContactForm } from './Styled';
 
@@ -17,13 +16,12 @@ class ContactForm extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const newContact = {
-      id: nanoid(),
+    const newContactData = {
       name: this.state.name,
       number: this.state.number,
     };
 
-    this.props.addContact(newContact);
+    this.props.addContact(newContactData);
   }
 
   static propTypes = {

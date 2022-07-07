@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 
 import { StyledContactList } from './Styled';
 
-const ContactList = ({ contacts, filter, onDelete }) => {
-  const contactsFilteredByName = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+const ContactList = ({ contacts, onDelete }) => {
 
   return (
     <StyledContactList>
       <ul className="contacts">
-        {contactsFilteredByName.length === 0 && <p>There are no contacts found!</p>}
-        {contactsFilteredByName.length > 0 &&
-          contactsFilteredByName.map(({ id, name, number }) => {
+        {contacts.length === 0 && <p>There are no contacts found!</p>}
+        {contacts.length > 0 &&
+          contacts.map(({ id, name, number }) => {
             return (
               <li key={id} className="contact">
                 <span className="contact-name">{name}</span>:&nbsp;{number}
@@ -35,7 +34,6 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
-  filter: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

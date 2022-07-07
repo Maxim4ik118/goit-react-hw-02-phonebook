@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { nanoid } from 'nanoid';
 import { Filter, ContactList, Section, ContactForm } from './components';
 
 class App extends React.Component {
@@ -13,21 +13,27 @@ class App extends React.Component {
     filter: '',
   };
 
-  handleAddContact = newContact => {
-    this.checkNewContactPresence(newContact.name)
-      ? alert(`${newContact.name} is already in contacts!`)
-      : this.setState(state => ({ contacts: [...state.contacts, newContact] }));
+  handleAddContact = newContactData => {
+    const newContactEntity = {
+      id: nanoid(),
+      ...newContactData,
+    };
+    
+    this.checkNewContactPresence(newContactEntity.name)
+      ? alert(`${newContactEntity.name} is already in contacts!`)
+      : this.setState(state => ({
+          contacts: [...state.contacts, newContactEntity],
+        }));
   };
 
   handleDeleteContact = contactId => {
-    const newContacts = this.state.contacts.filter(
-      contact => contact.id !== contactId
-    );
-    this.setState({ contacts: newContacts });
+    this.setState(state => ({
+      contacts: state.contacts.filter(contact => contact.id !== contactId),
+    }));
   };
 
   handleFilterContactsByName = ({ target: { value } }) => {
-    this.setState({ filter: value });
+    this.setState(() => ({ filter: value }));
   };
 
   checkNewContactPresence = contactName => {
@@ -36,6 +42,9 @@ class App extends React.Component {
 
   render() {
     const { contacts, filter } = this.state;
+    const contactsFilteredByName = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
     return (
       <div className="app">
@@ -45,8 +54,7 @@ class App extends React.Component {
         <Section title="Contacts">
           <Filter filter={filter} onChange={this.handleFilterContactsByName} />
           <ContactList
-            contacts={contacts}
-            filter={filter}
+            contacts={contactsFilteredByName}
             onDelete={this.handleDeleteContact}
           />
         </Section>
